@@ -33,11 +33,18 @@ gem 'jbuilder', '~> 2.5'
 gem 'haml-rails'
 gem 'twitter'
 gem 'config'
+gem 'active_model_serializers', '~> 0.10.0'
+gem 'lograge'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
+  gem 'pry'
+  gem 'pry-stack_explorer'
+  gem 'webmock', require: false
+  gem 'sinatra', '2.0.0.beta2'
+  gem 'json-schema'
 end
 
 group :development do

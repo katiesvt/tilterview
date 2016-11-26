@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
-  def index
-    head :ok
+  def show
+    safely_twitter do
+      @user = User.find(params[:id], fetch: true)
+      render json: @user
+    end
   end
 end
