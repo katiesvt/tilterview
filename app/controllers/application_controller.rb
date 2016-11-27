@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  http_basic_authenticate_with {
+  http_basic_authenticate_with({
     name: ENV['BASIC_AUTH_NAME'] || Settings.auth.name,
     password: ENV['BASIC_AUTH_PASSWORD'] || Settings.auth.password
-  }
+  })
 
   def safely_twitter
     yield
