@@ -17,10 +17,10 @@ class TwitterModel
 
   def api_connection
     @api_connection ||= Twitter::REST::Client.new do |config|
-      config.consumer_key        = Settings.twitter_api.consumer_key
-      config.consumer_secret     = Settings.twitter_api.consumer_secret
-      config.access_token        = Settings.twitter_api.access_token
-      config.access_token_secret = Settings.twitter_api.access_token_secret
+      config.consumer_key        = Settings.twitter_api.consumer_key || ENV['TWITTER_CONSUMER_KEY']
+      config.consumer_secret     = Settings.twitter_api.consumer_secret || ENV['TWITTER_CONSUMER_SECRET']
+      config.access_token        = Settings.twitter_api.access_token || ENV['TWITTER_ACCESS_TOKEN']
+      config.access_token_secret = Settings.twitter_api.access_token_secret || ENV['TWITTER_ACCESS_TOKEN_SECRET']
     end
   end
 end
