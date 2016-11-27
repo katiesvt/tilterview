@@ -3,13 +3,16 @@ class TwitterModel
   include ActiveModel::Serialization
 
   def fetch_data; raise NotImplementedError; end
+  def load_embedded_associations; raise NotImplementedError; end
   def self.find; raise NotImplementedError; end
 
   # @raises Twitter::Error::NotFound, Twitter::Error::Forbidden, Twitter::Error::Unauthorized
   def load_remote_attributes
-    # TODO: raise error if id is nil
+    assign_attributes remote_data.to_hash
+  end
+
+  def remote_data
     @remote_data ||= fetch_data
-    assign_attributes @remote_data.to_hash
   end
 
   def api_connection

@@ -26,6 +26,7 @@ class User < TwitterModel
     :contributors_enabled,
     :is_translator,
     :is_translation_enabled,
+    :profile_banner_url,
     :profile_background_color,
     :profile_background_image_url,
     :profile_background_image_url_https,
@@ -43,7 +44,13 @@ class User < TwitterModel
     :following,
     :follow_request_sent,
     :notifications,
-    :translator_type
+    :translator_type,
+    :suspended,
+    :needs_phone_verification,
+    :live_following,
+    :muting,
+    :blocking,
+    :blocked_by
 
   def attributes
     { "id" => nil,
@@ -88,7 +95,14 @@ class User < TwitterModel
       "following" => nil,
       "follow_request_sent" => nil,
       "notifications" => nil,
-      "translator_type" => nil }
+      "translator_type" => nil,
+      "suspended" => nil,
+      "needs_phone_verification" => nil,
+      "profile_banner_url" => nil,
+      "live_following" => nil,
+      "muting" => nil,
+      "blocking" => nil,
+      "blocked_by" => nil }
   end
 
   # @todo: Return an ActiveRecord::Relation here instead, also do voodoo to lazy query.
@@ -97,11 +111,15 @@ class User < TwitterModel
     api_connection.user_timeline(id.to_i).map { |tweet| Tweet.new(tweet.to_hash) }
   end
 
+  def friends
+    api_connection.friends(id.to_i).map { |user| User.new(user.to_hash) }
+  end
+
   def fetch_data
     api_connection.user(id.to_i)
   end
 
-  # @todo Find a way to void this "fetch" keyword here
+  # @todo Find a way to avoid this "fetch" keyword here
   def self.find(id, fetch: false)
     # TODO: Cache user info
     # TODO: Don't lookup until we want a field

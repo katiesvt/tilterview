@@ -1,6 +1,4 @@
 require 'rails_helper'
-require 'support/fake_twitter'
-require 'support/json_schema_matcher'
 
 RSpec.describe "Users", type: :request do
   describe "GET /user/:id" do
@@ -27,7 +25,9 @@ RSpec.describe "Users", type: :request do
 
     it "returns 429 when rate limited" do
       get_user(user: 429)
-      expect(response).to have_http_status(429)
+      # Apparently the twitter gem likes to throw the old EnhanceYourCalm error which corresponds to
+      # HTTP status 420. They mean the same thing, just one is an old joke.
+      expect(response).to have_http_status(420)
     end
   end
 end

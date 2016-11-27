@@ -28,7 +28,8 @@ class Tweet < TwitterModel
     :quoted_status_id_str,
     :quoted_status,
     :retweeted_status,
-    :extended_entities
+    :extended_entities,
+    :possibly_sensitive_appealable
 
   def attributes
     { "created_at" => nil,
@@ -59,16 +60,23 @@ class Tweet < TwitterModel
       "quoted_status_id_str" => nil,
       "quoted_status" => nil,
       "retweeted_status" => nil,
-      "extended_entities" => nil }
+      "extended_entities" => nil,
+      "possibly_sensitive_appealable" => nil }
   end
 
-  def fetch_data(id)
+  def fetch_data
     api_connection.status(id)
   end
 
-  def self.find(id)
+  def user
+    @user_model ||= User.new(remote_data.user.to_hash)
+  end
+
+  def self.find(id, fetch: false)
     # TODO: Cache user info
     # TODO: Don't lookup until we want a field
-    Tweet.new(id)
+    Tweet.new(id: id).tap do |t|
+      t.load_remote_attributes
+    end
   end
 end
