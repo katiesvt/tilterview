@@ -8,32 +8,33 @@ class FakeTwitter < Sinatra::Base
     status_returned = 200
     status_returned = params[:user_id].to_i if params[:user_id].to_i < 1000
 
-    json_response status_returned, "1.1/statuses/user_timeline/#{params[:user_id]}.json"
+    json_response status_returned, "1.1/statuses/user_timeline/#{params[:user_id]}"
   end
 
   # Used by User
   get '/1.1/users/show.json' do
     status_returned = 200
     status_returned = params[:user_id].to_i if params[:user_id].to_i < 1000
-    json_response status_returned, "1.1/users/show/#{params[:user_id]}.json"
+    json_response status_returned, "1.1/users/show/#{params[:user_id]}"
   end
 
   get '/1.1/friends/list.json' do
     status_returned = 200
     status_returned = params[:user_id].to_i if params[:user_id].to_i < 1000
-    json_response status_returned, "1.1/friends/list/#{params[:user_id]}.json"
+    json_response status_returned, "1.1/friends/list/#{params[:user_id]}"
   end
 
   get '/1.1/statuses/show/:id.json' do
     status_returned = 200
     status_returned = params[:id].to_i if params[:id].to_i < 1000
-    json_response status_returned, "1.1/statuses/show/#{params[:id]}.json"
+    json_response status_returned, "1.1/statuses/show/#{params[:id]}"
   end
 
   private
 
   def json_response(response_code, file_name)
-    json_path = File.dirname(__FILE__) + "/fixtures/" + file_name
+    cursor_path = params[:cursor].try(:to_i) && params[:cursor].to_i > 0 ? "_#{params[:cursor]}" : ""
+    json_path = File.dirname(__FILE__) + "/fixtures/" + file_name + cursor_path + ".json"
 
     unless File.exists?(json_path)
       status 500

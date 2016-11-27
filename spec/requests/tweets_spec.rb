@@ -1,11 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe "Tweets", type: :request do
-  describe "GET /user/:id/tweets" do
+  describe "GET /user/:user_id/tweets" do
     let(:default_user_id) { 297789562 }
 
-    def get_tweets(user: default_user_id, format: :json)
-      get user_tweets_path(user), params: { format: format }
+    let(:default_headers) { {
+      params: { format: :json },
+      headers: { 'Authorization' => ActionController::HttpAuthentication::Basic.encode_credentials(Settings.auth.name, Settings.auth.password) }
+    } }
+
+    def get_tweets(user: default_user_id)
+      get user_tweets_path(user), default_headers
     end
 
     it "returns tweets given valid id" do

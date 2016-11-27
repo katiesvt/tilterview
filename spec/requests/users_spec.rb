@@ -1,10 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  describe "GET /user/:id" do
+  describe "GET /user/:user_id" do
+    let(:default_headers) { {
+      params: { format: :json },
+      headers: { 'Authorization' => ActionController::HttpAuthentication::Basic.encode_credentials(Settings.auth.name, Settings.auth.password) }
+    } }
 
-    def get_user(user: 297789562, format: :json)
-      get user_path(user), params: { format: format }
+    def get_user(user: 297789562)
+      get user_path(user), default_headers
     end
 
     it "returns user given valid id" do

@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  http_basic_authenticate_with name: Settings.auth.name, password: Settings.auth.password
 
   def safely_twitter
     yield
@@ -29,5 +30,11 @@ class ApplicationController < ActionController::Base
     head 503
   rescue Twitter::Error::GatewayTimeout # 504
     head 504
+  end
+
+  protected
+
+  def current_user
+    @current_user ||= User.find(params[:user_id])
   end
 end

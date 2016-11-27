@@ -3,3 +3,6 @@ twitter_api:
   consumer_secret: ""
   access_token: ""
   access_token_secret: ""
+auth:
+  name: ""
+  password: ""

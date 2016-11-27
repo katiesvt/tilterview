@@ -69,7 +69,7 @@ class Tweet < TwitterModel
   end
 
   def user
-    @user_model ||= User.new(remote_data.user.to_hash)
+    @user_model ||= User.new(@user.to_hash)
   end
 
   def self.find(id, fetch: false)
