@@ -11,16 +11,16 @@ class FriendsController < ApplicationController
 
       render json: @friends
     end
-  rescue InvalidFilterError
+  rescue ArgumentError
     head 422
   end
 
   def restrict_by_user_id(full_set)
-    if params[:restrict_by_user_id].try(:to_i) && params[:restrict_by_user_id].to_i > 0
-      filter_set = User.find(params[:restrict_by_user_id].to_i).friend_ids
+    if Integer(params[:restrict_by_user_id]) > 0
+      filter_set = User.find(Integer(params[:restrict_by_user_id])).friend_ids
       full_set & filter_set
     else
-      raise InvalidFilterError
+      raise ArgumentError
     end
   end
 end

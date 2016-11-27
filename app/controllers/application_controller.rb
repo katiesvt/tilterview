@@ -47,6 +47,9 @@ class ApplicationController < ActionController::Base
   rescue Twitter::Error::GatewayTimeout => err # 504
     Rails.logger.warn "Twitter API returned " + err.message
     head 504
+  rescue ArgumentError => err
+    Rails.logger.warn "Invalid parameters given " + err.message
+    head 422
   end
 
   protected
