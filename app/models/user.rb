@@ -111,8 +111,8 @@ class User < TwitterModel
     api_connection.user_timeline(id.to_i).map { |tweet| Tweet.new(tweet.to_hash) }
   end
 
-  def friends
-    api_connection.friends(id.to_i).map { |user| User.new(user.to_hash) }
+  def friend_ids
+    api_connection.friend_ids(id.to_i).to_a
   end
 
   def fetch_data

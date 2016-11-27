@@ -18,10 +18,10 @@ class FakeTwitter < Sinatra::Base
     json_response status_returned, "1.1/users/show/#{params[:user_id]}"
   end
 
-  get '/1.1/friends/list.json' do
+  get '/1.1/friends/ids.json' do
     status_returned = 200
     status_returned = params[:user_id].to_i if params[:user_id].to_i < 1000
-    json_response status_returned, "1.1/friends/list/#{params[:user_id]}"
+    json_response status_returned, "1.1/friends/ids/#{params[:user_id]}"
   end
 
   get '/1.1/statuses/show/:id.json' do

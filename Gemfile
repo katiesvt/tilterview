@@ -44,6 +44,7 @@ group :development, :test do
   gem 'webmock', require: false
   gem 'sinatra', '2.0.0.beta2'
   gem 'json-schema'
+  gem 'sqlite3'
 end
 
 group :development do
