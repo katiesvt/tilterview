@@ -6,21 +6,21 @@
 
 App uses HTTP Basic authentication specified by `config/settings/development.local.yml`
 
-### GET /user/:user_id
+### GET /user/:screen_name
 
-Returns information about a Twitter user given a user id (not screenname).
+Returns information about a Twitter user given a screen name.
 
-### GET /user/:user_id/tweets
+### GET /user/:screen_name/tweets
 
-Returns the most recent tweets from a given user id.
+Returns the most recent tweets from a given screen name.
 
-### GET /user/:user_id/friends
+### GET /user/:screen_name/friends
 
 Returns all of the users a given user is following (called "friends" by Twitter).
 
 #### Parameters
 
-`restrict_by_user_id`: filters the returned set of friends by the friends of another given user id.
+`restrict_by_user_id`: filters the returned set of friends by the friends of another given screen name.
 
 ## Server Installation
 

@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject { User.find(297789562, fetch: true) }
+  subject { User.find_by_screen_name("katiesvt", fetch: true) }
 
   it { is_expected.to be_valid }
   it { is_expected.to have_attributes(id: be_a(Fixnum), name: be_a(String))}
 
   describe "#tweets" do
-    subject { User.find(297789562).tweets }
+    subject { User.find_by_screen_name("katiesvt").tweets }
 
     it { is_expected.not_to be_empty }
     it { is_expected.to all(be_a(Tweet)) }
@@ -15,7 +15,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "#friends" do
-    subject { User.find(297789562).friend_ids }
+    subject { User.find_by_screen_name("katiesvt").friend_ids }
 
     it { is_expected.not_to be_empty }
     it { is_expected.to all(be_a(Fixnum)) }

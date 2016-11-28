@@ -7,7 +7,7 @@ RSpec.describe "Users", type: :request do
       headers: { 'Authorization' => ActionController::HttpAuthentication::Basic.encode_credentials(Settings.auth.name, Settings.auth.password) }
     } }
 
-    def get_user(user: 297789562)
+    def get_user(user: "katiesvt")
       get user_path(user), default_headers
     end
 

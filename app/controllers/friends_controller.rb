@@ -16,8 +16,8 @@ class FriendsController < ApplicationController
   end
 
   def restrict_by_user_id(full_set)
-    if Integer(params[:restrict_by_user_id]) > 0
-      filter_set = User.find(Integer(params[:restrict_by_user_id])).friend_ids
+    if params[:restrict_by_user_id]
+      filter_set = User.find_by_screen_name(params[:restrict_by_user_id]).friend_ids
       full_set & filter_set
     else
       raise ArgumentError

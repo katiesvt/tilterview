@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Tweets", type: :request do
   describe "GET /user/:user_id/tweets" do
-    let(:default_user_id) { 297789562 }
+    let(:default_user_id) { "katiesvt" }
 
     let(:default_headers) { {
       params: { format: :json },

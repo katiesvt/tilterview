@@ -108,15 +108,19 @@ class User < TwitterModel
   # @todo: Return an ActiveRecord::Relation here instead, also do voodoo to lazy query.
   # @raises Twitter::Error::NotFound, Twitter::Error::Forbidden, Twitter::Error::Unauthorized
   def tweets
-    api_connection.user_timeline(Integer(id)).map { |tweet| Tweet.new(tweet.to_hash) }
+    api_connection.user_timeline(id_param).map { |tweet| Tweet.new(tweet.to_hash) }
   end
 
   def friend_ids
-    api_connection.friend_ids(Integer(id)).to_a
+    api_connection.friend_ids(id_param).to_a
   end
 
   def fetch_data
-    api_connection.user(Integer(id))
+    api_connection.user(id_param)
+  end
+
+  def id_param
+    id.nil? ? screen_name : Integer(id)
   end
 
   # @todo Find a way to avoid this "fetch" keyword here
@@ -124,5 +128,9 @@ class User < TwitterModel
     # TODO: Cache user info
     # TODO: Don't lookup until we want a field
     User.new(id: id).tap { |u| u.load_remote_attributes if fetch }
+  end
+
+  def self.find_by_screen_name(screen_name, fetch: false)
+    User.new(screen_name: screen_name).tap { |u| u.load_remote_attributes if fetch }
   end
 end

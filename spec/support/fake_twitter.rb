@@ -6,31 +6,35 @@ class FakeTwitter < Sinatra::Base
   get '/1.1/statuses/user_timeline.json' do
     # If you give an HTTP status code instead of an ID, we'll simulate the error of that number.
     status_returned = 200
-    status_returned = params[:user_id].to_i if params[:user_id].to_i < 1000
+    status_returned = id_param.to_i if id_param.to_i < 1000
 
-    json_response status_returned, "1.1/statuses/user_timeline/#{params[:user_id]}"
+    json_response status_returned, "1.1/statuses/user_timeline/#{id_param}"
   end
 
   # Used by User
   get '/1.1/users/show.json' do
     status_returned = 200
-    status_returned = params[:user_id].to_i if params[:user_id].to_i < 1000
-    json_response status_returned, "1.1/users/show/#{params[:user_id]}"
+    status_returned = id_param.to_i if id_param.to_i < 1000
+    json_response status_returned, "1.1/users/show/#{id_param}"
   end
 
   get '/1.1/friends/ids.json' do
     status_returned = 200
-    status_returned = params[:user_id].to_i if params[:user_id].to_i < 1000
-    json_response status_returned, "1.1/friends/ids/#{params[:user_id]}"
+    status_returned = id_param.to_i if id_param.to_i < 1000
+    json_response status_returned, "1.1/friends/ids/#{id_param}"
   end
 
   get '/1.1/statuses/show/:id.json' do
     status_returned = 200
-    status_returned = params[:id].to_i if params[:id].to_i < 1000
-    json_response status_returned, "1.1/statuses/show/#{params[:id]}"
+    status_returned = id_param.to_i if id_param.to_i < 1000
+    json_response status_returned, "1.1/statuses/show/#{id_param}"
   end
 
   private
+
+  def id_param
+    params[:user_id] || params[:screen_name] || params[:id]
+  end
 
   def json_response(response_code, file_name)
     cursor_path = params[:cursor].try(:to_i) && params[:cursor].to_i > 0 ? "_#{params[:cursor]}" : ""

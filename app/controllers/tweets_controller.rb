@@ -5,10 +5,4 @@ class TweetsController < ApplicationController
       render json: @tweets
     end
   end
-
-  private
-
-  def current_user
-    @current_user ||= User.find(params[:user_id])
-  end
 end
